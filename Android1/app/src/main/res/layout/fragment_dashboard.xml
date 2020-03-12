@@ -1,0 +1,107 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fl_dashboard"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.company.maina.DashboardFragment">
+
+    <TextView
+        android:id="@+id/tv_dashboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Параметры системы"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/geo_gps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_dashboard"
+        android:layout_alignParentLeft="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="61dp"
+        android:layout_marginBottom="-41dp"
+        android:text="GPS"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/primary_text_color" />
+
+    <TextView
+        android:id="@+id/geo_Network"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_dashboard"
+        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginRight="60dp"
+        android:layout_marginBottom="-41dp"
+        android:text="Network"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/primary_text_color" />
+
+    <TextView
+        android:id="@+id/GPS_en"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/geo_gps"
+        android:layout_marginLeft="50dp"
+        android:layout_marginBottom="-42dp"
+        android:layout_alignParentLeft="true"
+        android:text="TextView" />
+    <TextView
+        android:id="@+id/Net_en"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/geo_Network"
+        android:layout_marginRight="65dp"
+        android:layout_marginBottom="-42dp"
+        android:layout_alignParentRight="true"
+        android:text="TextView" />
+
+    <Button
+        android:id="@+id/but_geo_set"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/Net_en"
+        android:layout_marginTop="47dp"
+        android:text="Параметры геолокации" />
+
+    <TextView
+        android:id="@+id/text_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="24dp"
+        android:text="Ваши данные"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/name_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/text_data"
+        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="78dp"
+        android:text="" />
+
+    <Button
+        android:id="@+id/but_change"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/text_data"
+        android:layout_marginTop="149dp"
+        android:text="изменить данные" />
+
+    <Button
+        android:id="@+id/but_net_set"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/but_geo_set"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="-60dp"
+        android:text="Параметры интернета" />
+
+</RelativeLayout>
