@@ -30,6 +30,10 @@ class MainActivity : AppCompatActivity() {
                     loadFragment(DashboardFragment.newInstance())
                     return true
                 }
+                R.id.navigation_notifications -> {
+                    loadFragment (NotificationsFragment.newInstance())
+                    return true
+                }
             }
             return false
         }

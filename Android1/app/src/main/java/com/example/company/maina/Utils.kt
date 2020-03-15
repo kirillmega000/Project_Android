@@ -15,16 +15,10 @@ fun createRequest(url: String,filename:String,second:String) = Observable.create
     val lineEnd = "\r\n"
     val twoHyphens = "--"
     val boundary = "*****"
-    var bytesRead: Int
-    var bytesAvailable: Int
-    var bufferSize: Int
-    var buffer: ByteArray
-    val maxBufferSize = 1 * 1024 * 1024
-
     var FORM_FILE_NAME="file1"
     val urlConnection = URL(url).openConnection() as HttpURLConnection
     try {
-
+        if(second.contains("true"))it.onNext("QQ")
 
         urlConnection.useCaches=false
         urlConnection.doInput=true
@@ -54,7 +48,7 @@ fun createRequest(url: String,filename:String,second:String) = Observable.create
 
         outputStream.writeBytes(lineEnd)
         outputStream.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd)
-        val serverResponseCode = urlConnection.responseCode
+
 
       var resp=urlConnection.responseCode
         outputStream.flush()

@@ -98,27 +98,38 @@ class HomeFragment : Fragment() {
         fab_start_recording.setOnClickListener {
             onButton()
         }
-        fab_start_playing.setOnClickListener { playRecording(context ?: return@setOnClickListener) }
+
 
         sending()
 
 
     }
     private  fun sending(){
-        if(dir.listFiles().isNotEmpty()&&(internet.isInternetAvailable(context)))
-            sendFile(dir.listFiles().first())
+        var files=dir.listFiles().filter { file -> var metaFile=("meta"+file.name.substring(9,file.name.length-4))
+            this?.context?.openFileInput(metaFile)?.readBytes()?.toString(Charset.forName("UTF-8"))?.contains("false")?:false }
+        if(files.isNotEmpty())
+       for(it in files)
+           sendFile(it)
     }
     private fun sendFile( file:File){
 
         var metaFile=("meta"+file.name.substring(9,file.name.length-4))
         var info=this?.context?.openFileInput(metaFile)?.readBytes()?.toString(Charset.forName("UTF-8"))?:return
 
+        Log.d("CheckGovno",metaFile)
+        if(info.contains("true"))info="true"
         var obv=createRequest("http://192.168.100.222:8080/upload",file.absolutePath,info).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-        request=obv.subscribe({ file.delete()
-            File(context?.filesDir?.absolutePath+File.pathSeparator+metaFile).delete()
+
+        request=obv.subscribe({
+
+                info =info.replace("false","true")
+                Log.d("CheckGovno",info)
+                context?.deleteFile(metaFile)
+                this?.context?.openFileOutput(metaFile, MODE_PRIVATE)?.write(info.toByteArray(Charsets.UTF_8))
+
+
             initRecorder()
-             if(!dir.listFiles().isEmpty())
-                 sendFile(dir.listFiles().first())},
+             },
                 {Log.d("CheckSend","Fail")})
 
 
@@ -158,10 +169,9 @@ class HomeFragment : Fragment() {
             var prefs=this.context?.getSharedPreferences("NamePrefs",MODE_PRIVATE)
             var name:String?=prefs?.getString("name","NoName")?:"NoName"
             Log.d("FileCheck",count.toString()+formatLocation())
-            this.context?.openFileOutput(fileName, MODE_PRIVATE)?.write(("Name=${name} "+formatLocation()).toByteArray())?:return
+            this.context?.openFileOutput(fileName, MODE_PRIVATE)?.write(("Name=${name} ;"+formatLocation()+"; Send:false").toByteArray())?:return
             this.context?.openFileInput(fileName).use{
-                Log.d("FileCheck",it?.readBytes()?.toString(Charset.forName("UTF-8")))
-            }
+                Log.d("FileCheck",it?.readBytes()?.toString(Charset.forName("UTF-8"))) }
         } else {
             // Request permission from the user
             ActivityCompat.requestPermissions(activity?.parent?:return,
@@ -205,33 +215,6 @@ class HomeFragment : Fragment() {
         sending()
     }
 
-    fun playRecording(context: Context) {
-        val path = Uri.parse(Environment.getExternalStorageDirectory().absolutePath + "/soundrecorder/metas/recording" +  ".mp4")
-
-
-        val manager: AudioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        if (manager.isMusicActive) {
-            Toast.makeText(context, "Играет другая запись!", Toast.LENGTH_SHORT).show()
-        } else if (state) {
-            Toast.makeText(context, "Идет запись!", Toast.LENGTH_SHORT).show()
-        } else if (dir.listFiles().isEmpty()) {
-            Toast.makeText(context, "В папке нет записей!", Toast.LENGTH_SHORT).show()
-        } else {
-            startTimer()
-            val mediaPlayer: MediaPlayer? = MediaPlayer().apply {
-                setAudioStreamType(AudioManager.STREAM_MUSIC)
-                setDataSource(context, path)
-                prepare()
-                start()
-                setOnCompletionListener {
-                    stopTimer()
-
-                }
-            }
-
-        }
-
-    }
 
     fun startTimer() {
         resetTimer()
