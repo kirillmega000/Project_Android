@@ -63,6 +63,16 @@ class HomeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         try {
+            this.context?.openFileInput("meta0").use {
+                Log.d("FileCheck", it?.readBytes()?.toString(Charset.forName("UTF-8")))
+            }
+        } catch (e:Exception){
+            if(dir.listFiles().isNotEmpty())
+            for(it in dir.listFiles())
+                it.delete()
+        }
+
+        try {
             // create a File object for the parent directory
             val recorderDirectory = File(Environment.getExternalStorageDirectory().absolutePath + "/soundrecorder/recordings/")
             val metasRepository= File(Environment.getExternalStorageDirectory().absolutePath + "/soundrecorder/metas/")
@@ -87,7 +97,7 @@ class HomeFragment : Fragment() {
         }
 
 
-
+        sending()
 
         mediaRecorder = MediaRecorder()
 
@@ -100,14 +110,14 @@ class HomeFragment : Fragment() {
         }
 
 
-        sending()
+
 
 
     }
     private  fun sending(){
         var files=dir.listFiles().filter { file -> var metaFile=("meta"+file.name.substring(9,file.name.length-4))
             this?.context?.openFileInput(metaFile)?.readBytes()?.toString(Charset.forName("UTF-8"))?.contains("false")?:false }
-        if(files.isNotEmpty())
+        if(files.isNotEmpty()&&internet.isInternetAvailable(context))
        for(it in files)
            sendFile(it)
     }
@@ -117,7 +127,7 @@ class HomeFragment : Fragment() {
         var info=this?.context?.openFileInput(metaFile)?.readBytes()?.toString(Charset.forName("UTF-8"))?:return
 
         Log.d("CheckGovno",metaFile)
-        if(info.contains("true"))info="true"
+        Log.d("CheckGovno",info)
         var obv=createRequest("http://192.168.100.222:8080/upload",file.absolutePath,info).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 
         request=obv.subscribe({
@@ -156,8 +166,12 @@ class HomeFragment : Fragment() {
 
 
     fun onButton() {
-        if (state) stopRecording()
-        else startRecording()
+        try {
+            if (state) stopRecording()
+            else startRecording()
+        }catch (e:Exception ) {
+            e.printStackTrace()
+        }
 
     }
 
@@ -186,6 +200,7 @@ class HomeFragment : Fragment() {
             println("Starting recording!")
             mediaRecorder?.prepare()
             mediaRecorder?.start()
+            state = true
             startTimer()
         } catch (e: IllegalStateException) {
             e.printStackTrace()
@@ -201,7 +216,7 @@ class HomeFragment : Fragment() {
         Log.d("ENTERED", "stopped")
         mediaRecorder?.stop()
         mediaRecorder?.release()
-
+        state = false
         stopTimer()
         fab_start_recording.setImageResource(R.drawable.ic_mic_black_24dp)
         val path = File(Environment.getExternalStorageDirectory().absolutePath + "/soundrecorder/recordings/recording" + (dir.listFiles().size - 1) + ".mp4")
@@ -251,6 +266,11 @@ class HomeFragment : Fragment() {
                 "Coordinates: lat = %1$.4f, lon = %2$.4f",
                 location!!.getLatitude(), location!!.getLongitude())+", time="+time.gettime())
 
+    }
+
+    override fun onPause() {
+      if(state) stopRecording()
+        super.onPause()
     }
 
 

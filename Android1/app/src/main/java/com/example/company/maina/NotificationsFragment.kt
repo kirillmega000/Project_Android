@@ -61,6 +61,14 @@ class NotificationsFragment : Fragment() {
         }
     }
 
+    override fun onPause() {
+        try {
+            RecordingRepository.mediaPlayer?.stop()
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+        super.onPause()
+    }
     }
 
 

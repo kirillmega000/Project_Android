@@ -23,9 +23,9 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../stepic_java_webserver/L1.1 Simple web server" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="project.propCompiler" />
   </component>
   <component name="RunAnythingCache">
@@ -82,14 +82,14 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="552" y="179" key="#Project_Structure" timestamp="1583593112104">
+    <state x="552" y="179" key="#Project_Structure" timestamp="1584443102649">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="179" key="#Project_Structure/0.0.1920.1040@0.0.1920.1040" timestamp="1583593112104" />
-    <state x="418" y="176" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1584024790321">
+    <state x="552" y="179" key="#Project_Structure/0.0.1920.1040@0.0.1920.1040" timestamp="1584443102649" />
+    <state x="418" y="176" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1584481128344">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="418" y="176" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1584024790321" />
+    <state x="418" y="176" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1584481128344" />
     <state x="700" y="324" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1584266193347">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -102,38 +102,38 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="276" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1584019420680" />
-    <state width="1860" height="274" key="GridCell.Tab.0.bottom" timestamp="1584266146291">
+    <state width="1860" height="274" key="GridCell.Tab.0.bottom" timestamp="1584447365164">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="274" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1584266146291" />
-    <state width="1860" height="274" key="GridCell.Tab.0.center" timestamp="1584266146291">
+    <state width="1860" height="274" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1584447365164" />
+    <state width="1860" height="274" key="GridCell.Tab.0.center" timestamp="1584447365164">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="274" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1584266146291" />
-    <state width="1860" height="274" key="GridCell.Tab.0.left" timestamp="1584266146291">
+    <state width="1860" height="274" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1584447365164" />
+    <state width="1860" height="274" key="GridCell.Tab.0.left" timestamp="1584447365164">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="274" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1584266146291" />
-    <state width="1860" height="274" key="GridCell.Tab.0.right" timestamp="1584266146291">
+    <state width="1860" height="274" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1584447365164" />
+    <state width="1860" height="274" key="GridCell.Tab.0.right" timestamp="1584447365164">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="274" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1584266146291" />
-    <state x="444" y="95" key="SettingsEditor" timestamp="1584023100176">
+    <state width="1860" height="274" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1584447365164" />
+    <state x="444" y="95" key="SettingsEditor" timestamp="1584444426690">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="444" y="95" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1584023100176" />
-    <state x="656" y="345" key="com.intellij.ide.util.TipDialog" timestamp="1584265294789">
+    <state x="444" y="95" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1584444426690" />
+    <state x="656" y="345" key="com.intellij.ide.util.TipDialog" timestamp="1584612485303">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="656" y="345" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1584265294789" />
+    <state x="656" y="345" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1584612485303" />
     <state x="690" y="276" key="extract.method.dialog" timestamp="1583602994289">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="276" key="extract.method.dialog/0.0.1920.1040@0.0.1920.1040" timestamp="1583602994289" />
-    <state x="616" y="240" width="672" height="677" key="run.anything.popup" timestamp="1584266094227">
+    <state x="616" y="240" width="672" height="677" key="run.anything.popup" timestamp="1584444779157">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="616" y="240" width="672" height="677" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1584266094227" />
+    <state x="616" y="240" width="672" height="677" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1584444779157" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ServerAndroid$.ic" NAME=" Coverage Results" MODIFIED="1584024738155" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
