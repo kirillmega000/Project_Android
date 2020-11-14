@@ -126,8 +126,8 @@ class HomeFragment : Fragment() {
         var metaFile=("meta"+file.name.substring(9,file.name.length-4))
         var info=this?.context?.openFileInput(metaFile)?.readBytes()?.toString(Charset.forName("UTF-8"))?:return
 
-        Log.d("CheckGovno",metaFile)
-        Log.d("CheckGovno",info)
+        Log.d("CheckSend",metaFile)
+        Log.d("CheckSend",info)
         var obv=createRequest("http://192.168.100.222:8080/upload",file.absolutePath,info).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 
         request=obv.subscribe({
