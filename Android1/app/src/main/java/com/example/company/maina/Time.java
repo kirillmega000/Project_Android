@@ -5,8 +5,8 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class time {
-    public static String gettime(){
+public class Time {
+    public static String getTime() {
         DateTimeFormatter format = DateTimeFormatter.RFC_1123_DATE_TIME;
         ZoneId zone = ZoneId.of("Europe/Moscow");
         Instant instant = Instant.now();

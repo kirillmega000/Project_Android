@@ -1,9 +1,6 @@
 package com.example.company.maina
 
 import android.Manifest
-import android.content.Context
-import android.media.AudioManager
-import android.media.MediaPlayer
 import kotlinx.android.synthetic.main.fragment_home.*
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -11,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.media.MediaRecorder
-import android.net.Uri
 import android.os.Environment
 import android.util.Log
 import android.widget.Toast
@@ -21,16 +17,13 @@ import java.util.*
 import android.content.Context.*
 
 import android.content.pm.PackageManager
-import android.os.FileUtils
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.internal.schedulers.IoScheduler
 import io.reactivex.schedulers.Schedulers
 import java.io.*
 import java.nio.charset.Charset
-import java.nio.file.Files
 
 
 class HomeFragment : Fragment() {
@@ -41,9 +34,10 @@ class HomeFragment : Fragment() {
     private var recordingTime: Long = 0
     private var timer = Timer()
     private val dir: File = File(Environment.getExternalStorageDirectory().absolutePath + "/soundrecorder/recordings/")
-    private var dirmeta:File=File(Environment.getExternalStorageDirectory().absolutePath + "/soundrecorder/metas/")
+    private var dirmeta: File = File(Environment.getExternalStorageDirectory().absolutePath + "/soundrecorder/metas/")
 
-    private var outfile:String?=null
+    private var outfile: String? = null
+
     companion object {
 
         fun newInstance(): HomeFragment {
@@ -64,21 +58,21 @@ class HomeFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         try {
             this.context?.openFileInput("meta0").use {
-                Log.d("FileCheck", it?.readBytes()?.toString(Charset.forName("UTF-8")))
+                it?.readBytes()?.toString(Charset.forName("UTF-8"))?.let { it1 -> Log.d("FileCheck", it1) }
             }
-        } catch (e:Exception){
-            if(dir.listFiles().isNotEmpty())
-            for(it in dir.listFiles())
-                it.delete()
+        } catch (e: Exception) {
+            if (dir.listFiles() != null)
+                for (it in dir.listFiles())
+                    it.delete()
         }
 
         try {
+
             // create a File object for the parent directory
             val recorderDirectory = File(Environment.getExternalStorageDirectory().absolutePath + "/soundrecorder/recordings/")
-            val metasRepository= File(Environment.getExternalStorageDirectory().absolutePath + "/soundrecorder/metas/")
+            val metasRepository = File(Environment.getExternalStorageDirectory().absolutePath + "/soundrecorder/metas/")
             // have the object build the directory structure, if needed.
             recorderDirectory.mkdirs()
-
             metasRepository.mkdirs()
 
         } catch (e: IOException) {
@@ -86,16 +80,17 @@ class HomeFragment : Fragment() {
         }
 
         if (dir.exists()) {
-            val count = dir.listFiles().size
-            output = Environment.getExternalStorageDirectory().absolutePath + "/soundrecorder/recordings/recording" + count + ".mp4"
+            val count = dir.listFiles()?.size
+            output = Environment.getExternalStorageDirectory().absolutePath + "/soundrecorder/recordings/recording" + count + ".mp3"
 
         }
         if (dirmeta.exists()) {
-            val count = dirmeta.listFiles().size
-            outfile = Environment.getExternalStorageDirectory().absolutePath + "/soundrecorder/recordings/metas/meta" + count+".txt"
+            val count = dirmeta.listFiles()?.size
+            outfile = Environment.getExternalStorageDirectory().absolutePath + "/soundrecorder/metas/meta" + count + ".txt"
 
         }
-
+        Log.d("FileCheck", dir.absolutePath)
+        Log.d("FileCheck", dirmeta.absolutePath)
 
         sending()
 
@@ -110,51 +105,57 @@ class HomeFragment : Fragment() {
         }
 
 
-
-
-
     }
-    private  fun sending(){
-        var files=dir.listFiles().filter { file -> var metaFile=("meta"+file.name.substring(9,file.name.length-4))
-            this?.context?.openFileInput(metaFile)?.readBytes()?.toString(Charset.forName("UTF-8"))?.contains("false")?:false }
-        if(files.isNotEmpty()&&internet.isInternetAvailable(context))
-       for(it in files)
-           sendFile(it)
+
+    private fun sending() {
+//        var files = dir.listFiles()?.filter { file ->
+//            var metaFile = ("meta" + file.name.substring(9, file.name.length - 4))
+//            this.context?.openFileInput(metaFile)?.readBytes()?.toString(Charset.forName("UTF-8"))?.contains("false")
+//                    ?: false
+//        }
+//        if (files != null) {
+//            if (files.isNotEmpty() && Internet.isInternetAvailable(context))
+//                for (it in files)
+//                    sendFile(it)
+//        }
     }
-    private fun sendFile( file:File){
 
-        var metaFile=("meta"+file.name.substring(9,file.name.length-4))
-        var info=this?.context?.openFileInput(metaFile)?.readBytes()?.toString(Charset.forName("UTF-8"))?:return
+    private fun sendFile(file: File) {
 
-        Log.d("CheckSend",metaFile)
-        Log.d("CheckSend",info)
-        var obv=createRequest("http://192.168.100.222:8080/upload",file.absolutePath,info).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        var metaFile = ("meta" + file.name.substring(9, file.name.length - 4))
+        var info = this?.context?.openFileInput(metaFile)?.readBytes()?.toString(Charset.forName("UTF-8"))
+                ?: return
 
-        request=obv.subscribe({
+        Log.d("CheckSend", metaFile)
+        Log.d("CheckSend", info)
+        var obv = createRequest("http://192.168.100.222:8080/upload", file.absolutePath, info).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 
-                info =info.replace("false","true")
-                Log.d("CheckGovno",info)
-                context?.deleteFile(metaFile)
-                this?.context?.openFileOutput(metaFile, MODE_PRIVATE)?.write(info.toByteArray(Charsets.UTF_8))
+        request = obv.subscribe({
+
+            info = info.replace("false", "true")
+            Log.d("CheckGovno", info)
+            context?.deleteFile(metaFile)
+            this?.context?.openFileOutput(metaFile, MODE_PRIVATE)?.write(info.toByteArray(Charsets.UTF_8))
 
 
             initRecorder()
-             },
-                {Log.d("CheckSend","Fail")})
+        },
+                { Log.d("CheckSend", "Fail") })
 
 
     }
+
     private fun initRecorder() {
         mediaRecorder = MediaRecorder()
 
         if (dir.exists()) {
-            val count = dir.listFiles().size
-            output = Environment.getExternalStorageDirectory().absolutePath + "/soundrecorder/recordings/recording" + count + ".mp4"
+            val count = dir.listFiles()?.size
+            output = Environment.getExternalStorageDirectory().absolutePath + "/soundrecorder/recordings/recording" + count + ".mp3"
             Log.d("ENTERED", "sound" + count)
         }
         if (dirmeta.exists()) {
-            val count = dirmeta.listFiles().size
-            outfile = Environment.getExternalStorageDirectory().absolutePath + "/soundrecorder/recordings/metas/meta" + count+".txt"
+            val count = dirmeta.listFiles()?.size
+            outfile = Environment.getExternalStorageDirectory().absolutePath + "/soundrecorder/metas/meta" + count + ".txt"
 
         }
         mediaRecorder?.setAudioSource(MediaRecorder.AudioSource.MIC)
@@ -164,31 +165,41 @@ class HomeFragment : Fragment() {
 
     }
 
-
     fun onButton() {
         try {
             if (state) stopRecording()
             else startRecording()
-        }catch (e:Exception ) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
 
     }
 
-
     private fun startRecording() {
-        if (ContextCompat.checkSelfPermission(context?:return, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            val count = dir.listFiles().size
-            var fileName:String="meta"+count
-            var prefs=this.context?.getSharedPreferences("NamePrefs",MODE_PRIVATE)
-            var name:String?=prefs?.getString("name","NoName")?:"NoName"
-            Log.d("FileCheck",count.toString()+formatLocation())
-            this.context?.openFileOutput(fileName, MODE_PRIVATE)?.write(("Name=${name} ;"+formatLocation()+"; Send:false").toByteArray())?:return
-            this.context?.openFileInput(fileName).use{
-                Log.d("FileCheck",it?.readBytes()?.toString(Charset.forName("UTF-8"))) }
+        if (ContextCompat.checkSelfPermission(context
+                        ?: return, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+
+            val count = dir.listFiles()?.size
+            var fileName: String = "meta" + count
+            var prefs = this.context?.getSharedPreferences("NamePrefs", MODE_PRIVATE)
+            var name: String? = prefs?.getString("name", "NoName") ?: "NoName"
+            Log.d("FileCheck", count.toString() + formatLocation())
+            val file = File(outfile)
+            if (!file.parentFile.exists()) {
+                file.parentFile.mkdirs()
+            }
+            if (!file.exists()) {
+                file.createNewFile()
+            }
+            FileOutputStream(file).write(("Name=${name} ;" + formatLocation() + "; Send:false").toByteArray())
+//            this.context?.openFileOutput(fileName, MODE_PRIVATE)?.write(("Name=${name} ;" + formatLocation() + "; Send:false").toByteArray())
+//                    ?: return
+//            this.context?.openFileInput(fileName).use {
+//                it?.readBytes()?.toString(Charset.forName("UTF-8"))?.let { it1 -> Log.d("FileCheck", it1) }
+//            }
         } else {
             // Request permission from the user
-            ActivityCompat.requestPermissions(activity?.parent?:return,
+            ActivityCompat.requestPermissions(activity?.parent ?: return,
                     arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 0)
 
         }
@@ -219,13 +230,16 @@ class HomeFragment : Fragment() {
         state = false
         stopTimer()
         fab_start_recording.setImageResource(R.drawable.ic_mic_black_24dp)
-        val path = File(Environment.getExternalStorageDirectory().absolutePath + "/soundrecorder/recordings/recording" + (dir.listFiles().size - 1) + ".mp4")
-        val copy= File (Environment.getExternalStorageDirectory().absolutePath + "/soundrecorder/metas/recording" + ".mp4")
-        if(copy.exists()){
+        val path = File(Environment.getExternalStorageDirectory().absolutePath + "/soundrecorder/recordings/recording" + (dir.listFiles().size - 1) + ".mp3")
+        val copy = File(Environment.getExternalStorageDirectory().absolutePath + "/soundrecorder/backup/recording" + (dir.listFiles().size - 1) + ".mp3")
+        if (copy.exists()) {
             copy.delete()
         }
+        if (!copy.parentFile.exists()) {
+            copy.parentFile.mkdirs()
+        }
         copy.createNewFile()
-        org.apache.commons.io.FileUtils.copyFile(path,copy)
+        org.apache.commons.io.FileUtils.copyFile(path, copy)
         initRecorder()
         sending()
     }
@@ -233,7 +247,7 @@ class HomeFragment : Fragment() {
 
     fun startTimer() {
         resetTimer()
-        timer=Timer()
+        timer = Timer()
         timer.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
                 recordingTime += 1
@@ -260,19 +274,19 @@ class HomeFragment : Fragment() {
         val str = String.format("%d:%02d", minutes, seconds)
         textview_recording_time.text = str
     }
+
     private fun formatLocation(): String {
-        var location=MyLocationListener.imHere
+        var location = MyLocationListener.imHere
         return if (location == null) "none" else (String.format(
                 "Coordinates: lat = %1$.4f, lon = %2$.4f",
-                location!!.getLatitude(), location!!.getLongitude())+", time="+time.gettime())
+                location!!.getLatitude(), location!!.getLongitude()) + ", Time=" + Time.getTime())
 
     }
 
     override fun onPause() {
-      if(state) stopRecording()
+        if (state) stopRecording()
         super.onPause()
     }
-
 
 
 }

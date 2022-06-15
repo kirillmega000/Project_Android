@@ -13,13 +13,11 @@ import kotlinx.android.synthetic.main.fragment_notifications.*
 
 class NotificationsFragment : Fragment() {
     private lateinit var groupAdapter: GroupAdapter<ViewHolder>
-    private var data: ArrayList<String>? = ArrayList<String>()
+    private var data: List<String>? = ArrayList<String>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_notifications, container, false)
-
-
 
     }
 
@@ -48,15 +46,16 @@ class NotificationsFragment : Fragment() {
             adapter = groupAdapter
         }
     }
+
     private fun updateAdapter() {
         data = RecordingRepository.getInstance().getRecordings()
         println("Updating Adapter")
         groupAdapter.clear()
 
-        if(data != null) {
+        if (data != null) {
             data!!.forEach {
                 println("Data: $it")
-                groupAdapter.add(Recording(it,context?:return))
+                groupAdapter.add(Recording(it, context ?: return))
             }
         }
     }
@@ -64,11 +63,11 @@ class NotificationsFragment : Fragment() {
     override fun onPause() {
         try {
             RecordingRepository.mediaPlayer?.stop()
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
         super.onPause()
     }
-    }
+}
 
 

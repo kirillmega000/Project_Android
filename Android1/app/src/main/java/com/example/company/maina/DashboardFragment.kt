@@ -7,9 +7,6 @@ import android.content.SharedPreferences
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
-import android.location.LocationProvider
-import android.net.ConnectivityManager
-import android.net.Network
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -17,11 +14,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_dashboard.*
-import java.net.InetAddress
-import android.net.NetworkInfo
-import android.support.v4.content.ContextCompat.getSystemService
-
-
 
 
 class DashboardFragment : Fragment() {
@@ -87,7 +79,7 @@ class DashboardFragment : Fragment() {
     fun CheckInternet(){
         //улучшить
         Log.d("CheckInet","enter")
-       if(internet.isInternetAvailable(context?:return)){
+       if(Internet.isInternetAvailable(context?:return)){
            Net_en.setText("Enabled")
 
        }

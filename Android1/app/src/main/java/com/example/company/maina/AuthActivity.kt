@@ -11,9 +11,9 @@ class AuthActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
         but_submit.setOnClickListener {
-            val intent=Intent()
-            intent.putExtra("name","${edit_lastname.text} ${edit_name.text} ${edit_secname.text}")
-            setResult(1,intent)
+            val intent = Intent()
+            intent.putExtra("name", "${edit_lastname.text} ${edit_name.text} ${edit_secname.text}")
+            setResult(1, intent)
             finish()
         }
     }
